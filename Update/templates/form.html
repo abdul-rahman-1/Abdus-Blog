@@ -1,0 +1,24 @@
+<div class="mb-3">
+    <label class="form-label">Heading</label>
+    <input name="heading" value="{{ blog.heading if blog else '' }}" class="form-control" required>
+</div>
+<div class="mb-3">
+    <label class="form-label">Title</label>
+    <input name="title" value="{{ blog.title if blog else '' }}" class="form-control" required>
+</div>
+<div class="mb-3">
+    <label class="form-label">Short Content</label>
+    <textarea name="short_content" class="form-control" required>{{ blog.short_content if blog else '' }}</textarea>
+</div>
+<div class="mb-3">
+    <label class="form-label">Full Content</label>
+    <textarea name="content" class="form-control" required>{{ blog.content if blog else '' }}</textarea>
+</div>
+<div class="mb-3">
+    <label class="form-label">Date</label>
+    <input type="date" name="date" value="{{ blog.date if blog else '' }}" class="form-control" required>
+</div>
+<div class="mb-3">
+    <label class="form-label">Upload Image</label>
+    <input type="file" name="image" class="form-control" {% if not blog %}required{% endif %}>
+</div>

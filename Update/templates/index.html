@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FinWise - Blog Manager</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">FinWise</a>
+      <a class="btn btn-success ms-auto" href="/add">+ Add Blog</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="text-center mb-5">
+      <h1 class="mt-4">Welcome to FinWise Blog Manager</h1>
+      <p class="lead">Your personal tool to manage blogs about finance, investment, crypto, and more!</p>
+    </div>
+
+    <div class="row">
+      {% for blog in blogs %}
+      <div class="col-md-4">
+        <div class="card">
+          {% if blog.image_base64 and blog.image_base64 != 'data:' %}
+          <img src="{{ blog.image_base64 }}" class="card-img-top blog-image" alt="Blog Image">
+          {% endif %}
+          <div class="card-body">
+            <h6 class="text-muted">{{ blog.heading }}</h6>
+            <h5 class="card-title">{{ blog.title }}</h5>
+            <p class="card-text">{{ blog.short_content }}</p>
+            <p class="text-muted small">{{ blog.date }}</p>
+            <a href="/edit/{{ blog._id }}" class="btn btn-primary btn-sm">Edit</a>
+            <a href="/delete/{{ blog._id }}" class="btn btn-danger btn-sm" onclick="return confirm('Delete this blog?')">Delete</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</body>
+</html>
