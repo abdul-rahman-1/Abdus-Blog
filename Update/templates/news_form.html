@@ -1,0 +1,73 @@
+<div class="mb-3">
+  <label class="form-label">Issue Number</label>
+  <input type="number" name="issue" value="{{ news_card.issue if news_card else '' }}" class="form-control" required />
+</div>
+<div class="mb-3">
+  <label class="form-label">Title</label>
+  <input type="text" name="title" value="{{ news_card.title if news_card else '' }}" class="form-control" required />
+</div>
+<div class="mb-3">
+  <label class="form-label">Date</label>
+  <input type="date" name="date" value="{{ news_card.date if news_card else '' }}" class="form-control" required />
+</div>
+<div class="mb-3">
+  <label class="form-label">Summary</label>
+  <textarea name="summary" class="form-control" required>{{ news_card.summary if news_card else '' }}</textarea>
+</div>
+
+<hr />
+
+<div id="sections-container">
+  <h5>Sections</h5>
+  {% if news_card and news_card.sections %}
+    {% for section in news_card.sections %}
+    <div class="section-group mb-3 border rounded p-3">
+      <label class="form-label">Section Heading</label>
+      <input type="text" name="section_heading" value="{{ section.heading }}" class="form-control" required />
+      <label class="form-label mt-2">Section Content</label>
+      <textarea name="section_content" class="form-control" rows="3" required>{{ section.content }}</textarea>
+      <button type="button" class="btn btn-danger btn-sm mt-2 remove-section-btn">Remove Section</button>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="section-group mb-3 border rounded p-3">
+      <label class="form-label">Section Heading</label>
+      <input type="text" name="section_heading" class="form-control" required />
+      <label class="form-label mt-2">Section Content</label>
+      <textarea name="section_content" class="form-control" rows="3" required></textarea>
+      <button type="button" class="btn btn-danger btn-sm mt-2 remove-section-btn">Remove Section</button>
+    </div>
+  {% endif %}
+</div>
+<button type="button" class="btn btn-primary mb-3" id="add-section-btn">Add Section</button>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("sections-container");
+    const addBtn = document.getElementById("add-section-btn");
+
+    addBtn.addEventListener("click", () => {
+      const sectionGroup = document.createElement("div");
+      sectionGroup.className = "section-group mb-3 border rounded p-3";
+      sectionGroup.innerHTML = `
+        <label class="form-label">Section Heading</label>
+        <input type="text" name="section_heading" class="form-control" required />
+        <label class="form-label mt-2">Section Content</label>
+        <textarea name="section_content" class="form-control" rows="3" required></textarea>
+        <button type="button" class="btn btn-danger btn-sm mt-2 remove-section-btn">Remove Section</button>
+      `;
+      container.appendChild(sectionGroup);
+      attachRemoveHandler(sectionGroup.querySelector(".remove-section-btn"));
+    });
+
+    function attachRemoveHandler(btn) {
+      btn.addEventListener("click", () => {
+        btn.closest(".section-group").remove();
+      });
+    }
+
+    document.querySelectorAll(".remove-section-btn").forEach(btn => {
+      attachRemoveHandler(btn);
+    });
+  });
+</script>
